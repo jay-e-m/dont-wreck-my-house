@@ -4,29 +4,29 @@
 ## To-Do List
 
 ### Setup
-- [ ] Create a new Java project with Maven (t: 5 minutes)
-- [ ] Create "**data**" directory at the same level as src, add .csv files to it (t: 5 minutes)
+- [X] Create a new Java project with Maven (t: 5 minutes)
+- [X] Create "**data**" directory at the same level as src, add .csv files to it (t: 5 minutes)
   -  .csv files from the .zip provided in LMS 
-- [ ] Import dependencies (Spring & JUnit) (t: 5 minutes)
-- [ ] Create packages in adherence with the Dev10 MVC 'guideline' (t: 5 minutes)
-  - *data, domain, models, ui*
-- [ ] Add a "**resources**" root directory at the same level as java (under main) (t: 5 minutes)
+- [X] Import dependencies (Spring & JUnit) (t: 5 minutes)
+- [X] Create packages in adherence with the Dev10 MVC 'guideline' (t: 5 minutes)
+  - **Under the Java Directory**: *data, domain, models, ui*
+- [X] Add a "**resources**" root directory at the same level as java (under main) (t: 5 minutes)
   - Create an "**app.properties**" file inside of resources
     - Add path information to app.properties?
-- [ ] Create packages in the test directory, under src > java. (t: 5 minutes)
+- [X] Create packages in the test directory, under test > java. (t: 5 minutes)
   - "**data**", "**domain**"
 
 ### Project Framework Implementation (no code)
-- [ ] Create classes (models) for `Hosts`, `Guests`, and `Reservations` (**pkg:** models) (t: 5 minutes)
-- [ ] Create data repo (classes/interfaces) for corresponding models (**pkg:** data) (t: 10 minutes)
-- [ ] Create service classes for fetching data from repos (**pkg:** domain) (t: 5 minutes)
-- [ ] Create an exception class (**pkg:** data) (t: 5 minutes)
-- [ ] Create a response and a result class for handling service responses (**pkg:** domain) (t: 5 minutes)
+- [X] Create classes (models) for `Hosts`, `Guests`, and `Reservations` (**pkg:** models) (t: 5 minutes)
+- [X] Create data repo (classes/interfaces) for corresponding models (**pkg:** data) (t: 10 minutes)
+- [X] Create service classes for fetching data from repos (**pkg:** domain) (t: 5 minutes)
+- [X] Create an exception class (**pkg:** data) (t: 5 minutes)
+- [X] Create a response and a result class for handling service responses (**pkg:** domain) (t: 5 minutes)
   - **Response** stores and sends error messages depending on the state of a "isSuccessful" boolean
   - **Result** extends response, returns data of the operation if it was successful
-- [ ] Create tests and doubles for each of the models in **test > ... > data**, and service tests in **test > ... > domain** packages (t: 5 minutes)
-- [ ] Create classes in UI package: `ConsoleIO`, `Controller`, `View`, and possibly a `Menu` Enum (t: 5 minutes)
-- [ ] **Implement Spring Annotation DI on appropriate components** (t: 10 minutes)
+- [X] Create tests and doubles for each of the models in **test > ... > data**, and service tests in **test > ... > domain** packages (t: 5 minutes)
+- [X] Create classes in UI package: `ConsoleIO`, `Controller`, `View`, and possibly a `Menu` Enum (t: 5 minutes)
+- [X] **Implement Spring Annotation DI on appropriate components** (t: 10 minutes)
   - Typically UI, Domain, and Data package components
   - No interfaces
 
