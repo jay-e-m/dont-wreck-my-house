@@ -63,6 +63,7 @@ public class ReservationFileRepository implements ReservationRepository {
         List<Reservation> all = findByHostID(reservation.getHost().getId());
         for (int i = 0; i < all.size(); i++) {
             if (all.get(i).getId().equals(reservation.getId())) {
+                reservation.calculateTotal();
                 all.set(i, reservation);
                 writeAll(all, reservation.getHost().getId());
                 return true;
@@ -130,6 +131,7 @@ public class ReservationFileRepository implements ReservationRepository {
         result.setHost(host);
 
         result.setTotal(new BigDecimal(fields[4]));
+
         return result;
     }
 

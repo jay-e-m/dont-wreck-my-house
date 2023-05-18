@@ -9,6 +9,10 @@ public interface HostRepository {
 
     Host findHostByName(String name);
 
+    Host findHostByState(String state);
+
+    Host findHostByID(String id);
+
     Host add(Host host) throws DataException;
 
     boolean update(Host host) throws DataException;

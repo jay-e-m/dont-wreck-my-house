@@ -13,7 +13,6 @@ import java.util.List;
 @Repository
 public class HostFileRepository implements HostRepository {
 
-    private static final String HEADER = "id,name,email,phone,address,city,state,postal,standard_rate,weekend_rate";
     private final String directory;
 
     public HostFileRepository(@Value("${hosts.path}")String directory) {
@@ -44,6 +43,20 @@ public class HostFileRepository implements HostRepository {
     public Host findHostByName(String name) {
         return findAll().stream()
                 .filter(h -> h.getName().equalsIgnoreCase(name))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public Host findHostByState(String state) {
+        return findAll().stream()
+                .filter(h -> h.getState().equalsIgnoreCase(state))
+                .findAny()
+                .orElse(null);
+    }
+
+    public Host findHostByID(String id) {
+        return findAll().stream()
+                .filter(h -> h.getId().equalsIgnoreCase(id))
                 .findFirst()
                 .orElse(null);
     }

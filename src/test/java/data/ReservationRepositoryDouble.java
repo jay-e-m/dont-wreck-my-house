@@ -10,14 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ReservationsRepositoryDouble implements ReservationRepository {
+public class ReservationRepositoryDouble implements ReservationRepository {
 
     final LocalDate startDate = LocalDate.of(2023, 5, 15);
     final LocalDate endDate = LocalDate.of(2023, 5, 18);
 
     private final ArrayList<Reservation> reservations = new ArrayList<>();
 
-    public ReservationsRepositoryDouble() {
+    public ReservationRepositoryDouble() {
         Guest guest = new Guest();
         guest.setId("10");
 
