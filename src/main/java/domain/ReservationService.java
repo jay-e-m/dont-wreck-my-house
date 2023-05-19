@@ -1,13 +1,13 @@
-package service;
+package domain;
 
 import data.DataException;
 import data.GuestRepository;
 import data.HostRepository;
 import data.ReservationRepository;
-import domain.Result;
 import models.Guest;
 import models.Host;
 import models.Reservation;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 

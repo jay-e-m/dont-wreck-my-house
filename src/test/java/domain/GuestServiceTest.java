@@ -61,5 +61,4 @@ class GuestServiceTest {
         assertEquals("New", result.getPayload().getFirstName());
     }
 
-    // Add more tests as necessary...
 }

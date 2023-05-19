@@ -3,7 +3,6 @@ package domain;
 import data.DataException;
 import data.HostRepository;
 import models.Host;
-import domain.Result;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -71,19 +70,6 @@ public class HostService {
         return result;
     }
 
-    public Result<Host> delete(Host host) {
-        Result<Host> result = new Result<>();
-        try {
-            if(!hostRepository.delete(host)) {
-                result.addErrorMessage("Could not find host to delete.");
-                return result;
-            }
-        } catch (DataException ex) {
-            result.addErrorMessage("Could not delete the host: " + ex.getMessage());
-            return result;
-        }
-        return result;
-    }
 
     private Result<Host> validate(Host host) {
         Result<Host> result = new Result<>();
