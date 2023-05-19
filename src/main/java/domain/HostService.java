@@ -4,10 +4,12 @@ import data.DataException;
 import data.HostRepository;
 import models.Host;
 import domain.Result;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
 
+@Service
 public class HostService {
 
     private final HostRepository hostRepository;

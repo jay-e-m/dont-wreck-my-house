@@ -11,6 +11,7 @@ import models.Reservation;
 
 import java.util.List;
 
+@Service
 public class ReservationService {
 
     private final ReservationRepository reservationRepository;

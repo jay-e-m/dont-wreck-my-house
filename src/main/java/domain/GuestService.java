@@ -4,9 +4,11 @@ import data.DataException;
 import data.GuestRepository;
 import domain.Result;
 import models.Guest;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class GuestService {
 
     private final GuestRepository guestRepository;
