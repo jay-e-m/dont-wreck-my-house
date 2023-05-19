@@ -29,7 +29,7 @@ public class Host {
 
     public Host() {}
 
-    public String getId() {
+    public String getHostUUID() {
         return id;
     }
 

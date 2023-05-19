@@ -92,7 +92,7 @@ class ReservationFileRepositoryTest {
         List<Reservation> reservations = repository.findByHostID(hostID);
         assertNotNull(reservations);
         assertEquals(15, reservations.size());
-        assertEquals("1", reservations.get(0).getId());
+        assertEquals("1", reservations.get(0).getReservationIdForGuest());
         assertEquals(LocalDate.of(2023, 5, 25), reservations.get(0).getStartDate());
         assertEquals(LocalDate.of(2023, 5, 30), reservations.get(0).getEndDate());
         assertEquals("10", reservations.get(0).getGuest().getId());
@@ -118,7 +118,7 @@ class ReservationFileRepositoryTest {
 
         assertNotNull(reservations);
         assertEquals(14, reservations.size());
-        assertNotEquals("1", reservations.get(0).getId());
+        assertNotEquals("1", reservations.get(0).getReservationIdForGuest());
     }
 
     @Test
@@ -147,7 +147,7 @@ class ReservationFileRepositoryTest {
 
         assertNotNull(reservations);
         assertEquals(15, reservations.size());
-        assertEquals("1", reservations.get(0).getId());
+        assertEquals("1", reservations.get(0).getReservationIdForGuest());
     }
 
 

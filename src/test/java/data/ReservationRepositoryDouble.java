@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class ReservationRepositoryDouble implements ReservationRepository {
@@ -23,6 +24,8 @@ public class ReservationRepositoryDouble implements ReservationRepository {
 
         Host host = new Host();
         host.setId("01f36661-cf18-49e7-a574-b72feb502ed0");
+        host.setStandardRate(new BigDecimal("395.00"));
+        host.setWeekendRate(new BigDecimal("493.75"));
 
         Reservation reservation = new Reservation();
         reservation.setId("01f36661-cf18-49e7-a574-b72feb502ed0");
@@ -30,14 +33,16 @@ public class ReservationRepositoryDouble implements ReservationRepository {
         reservation.setEndDate(endDate);
         reservation.setGuest(guest);
         reservation.setHost(host);
-        reservation.setTotal(new BigDecimal(String.valueOf(reservation.getTotalCost())));
+
+        reservation.calculateTotal();
+
         reservations.add(reservation);
     }
 
     @Override
     public List<Reservation> findByHostID(String id) {
         return reservations.stream()
-                .filter(i -> i.getHost().getId().equals(id))
+                .filter(i -> i.getHost().getHostUUID().equals(id))
                 .collect(Collectors.toList());
     }
 
@@ -56,6 +61,18 @@ public class ReservationRepositoryDouble implements ReservationRepository {
     @Override
     public boolean cancel(Reservation reservation) throws DataException {
         return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ReservationRepositoryDouble that)) return false;
+        return Objects.equals(startDate, that.startDate) && Objects.equals(endDate, that.endDate) && Objects.equals(reservations, that.reservations);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(startDate, endDate, reservations);
     }
 }
 

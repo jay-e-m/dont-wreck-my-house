@@ -56,7 +56,7 @@ public class HostFileRepository implements HostRepository {
 
     public Host findHostByID(String id) {
         return findAll().stream()
-                .filter(h -> h.getId().equalsIgnoreCase(id))
+                .filter(h -> h.getHostUUID().equalsIgnoreCase(id))
                 .findFirst()
                 .orElse(null);
     }
@@ -82,7 +82,7 @@ public class HostFileRepository implements HostRepository {
 
     private String serialize(Host item) {
         return String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
-                item.getId(),
+                item.getHostUUID(),
                 item.getName(),
                 item.getEmail(),
                 item.getPhoneNumber(),

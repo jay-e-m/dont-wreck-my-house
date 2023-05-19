@@ -25,7 +25,7 @@ public class Reservation {
 
     public Reservation() {}
 
-    public String getId() {
+    public String getReservationIdForGuest() {
         return id;
     }
 

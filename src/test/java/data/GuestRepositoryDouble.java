@@ -4,6 +4,7 @@ import models.Guest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class GuestRepositoryDouble implements GuestRepository {
@@ -58,6 +59,18 @@ public class GuestRepositoryDouble implements GuestRepository {
     @Override
     public boolean delete(Guest guest) throws DataException {
         return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GuestRepositoryDouble that)) return false;
+        return Objects.equals(guests, that.guests);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(guests);
     }
 }
 

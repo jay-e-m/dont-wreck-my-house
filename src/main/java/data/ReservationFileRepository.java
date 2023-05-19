@@ -46,26 +46,30 @@ public class ReservationFileRepository implements ReservationRepository {
 
     @Override
     public Reservation add(Reservation reservation) throws DataException {
-        List<Reservation> allReservations = findByHostID(reservation.getHost().getId());
+        List<Reservation> allReservations = findByHostID(reservation.getHost().getHostUUID());
         int maxId = allReservations.stream()
-                .mapToInt(r -> Integer.parseInt(r.getId()))
+                .mapToInt(r -> Integer.parseInt(r.getReservationIdForGuest()))
                 .max()
                 .orElse(0);
         reservation.setId(String.valueOf(maxId + 1));
         reservation.calculateTotal();
         allReservations.add(reservation);
+
+        writeAll(allReservations, reservation.getHost().getHostUUID());
+
         return reservation;
     }
 
 
+
     @Override
     public boolean update(Reservation reservation) throws DataException {
-        List<Reservation> all = findByHostID(reservation.getHost().getId());
+        List<Reservation> all = findByHostID(reservation.getHost().getHostUUID());
         for (int i = 0; i < all.size(); i++) {
-            if (all.get(i).getId().equals(reservation.getId())) {
+            if (all.get(i).getReservationIdForGuest().equals(reservation.getReservationIdForGuest())) {
                 reservation.calculateTotal();
                 all.set(i, reservation);
-                writeAll(all, reservation.getHost().getId());
+                writeAll(all, reservation.getHost().getHostUUID());
                 return true;
             }
         }
@@ -75,14 +79,14 @@ public class ReservationFileRepository implements ReservationRepository {
 
     @Override
     public boolean cancel(Reservation reservation) throws DataException {
-        List<Reservation> all = findByHostID(reservation.getHost().getId());
+        List<Reservation> all = findByHostID(reservation.getHost().getHostUUID());
         for (int i = 0; i < all.size(); i++) {
-            if (all.get(i).getId().equals(reservation.getId())) {
+            if (all.get(i).getReservationIdForGuest().equals(reservation.getReservationIdForGuest())) {
                 if (reservation.isInPast()) {
                     throw new DataException("Reservation has already occurred and cannot be cancelled.");
                 }
                 all.remove(i);
-                writeAll(all, reservation.getHost().getId());
+                writeAll(all, reservation.getHost().getHostUUID());
                 return true;
             }
         }
@@ -109,7 +113,7 @@ public class ReservationFileRepository implements ReservationRepository {
 
     private String serialize(Reservation item) {
         return String.format("%s,%s,%s,%s,%s",
-                item.getId(),
+                item.getReservationIdForGuest(),
                 item.getStartDate(),
                 item.getEndDate(),
                 item.getGuest().getId(),

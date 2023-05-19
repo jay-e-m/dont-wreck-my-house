@@ -9,12 +9,12 @@ class HostFileRepositoryTest {
 
     @Test
     void shouldFindAllHosts() {
-        assertEquals(3, repository.findAll().size());
+        assertEquals(4, repository.findAll().size());
     }
 
     @Test
     void shouldFindHostByName() {
-        assertNotNull(repository.findHostByName("Test Host 1"));
+        assertNotNull(repository.findHostByName("Yearnes"));
         assertNull(repository.findHostByName("Nonexistent Host"));
     }
 
@@ -26,7 +26,7 @@ class HostFileRepositoryTest {
 
     @Test
     void shouldFindHostByID() {
-        assertNotNull(repository.findHostByID("1"));
+        assertNotNull(repository.findHostByID("a0d911e7-4fde-4e4a-bdb7-f047f15615e8"));
         assertNull(repository.findHostByID("Nonexistent ID"));
     }
 
