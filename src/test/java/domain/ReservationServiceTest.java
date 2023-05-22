@@ -1,12 +1,14 @@
 package domain;
 
-import data.DataException;
+import admin.data.DataException;
+import admin.domain.ReservationService;
+import admin.domain.Result;
 import data.GuestRepositoryDouble;
 import data.HostRepositoryDouble;
 import data.ReservationRepositoryDouble;
-import models.Guest;
-import models.Host;
-import models.Reservation;
+import admin.models.Guest;
+import admin.models.Host;
+import admin.models.Reservation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ReservationServiceTest {
 
-    service.ReservationService service;
+    ReservationService service;
     ReservationRepositoryDouble reservationRepository;
     GuestRepositoryDouble guestRepository;
     HostRepositoryDouble hostRepository;
@@ -29,7 +31,7 @@ class ReservationServiceTest {
         guestRepository = new GuestRepositoryDouble();
         hostRepository = new HostRepositoryDouble();
 
-        service = new service.ReservationService(reservationRepository, guestRepository, hostRepository);
+        service = new ReservationService(reservationRepository, guestRepository, hostRepository);
     }
 
     @Test

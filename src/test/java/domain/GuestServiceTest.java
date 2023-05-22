@@ -1,7 +1,9 @@
 package domain;
 
+import admin.domain.GuestService;
+import admin.domain.Result;
 import data.GuestRepositoryDouble;
-import models.Guest;
+import admin.models.Guest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

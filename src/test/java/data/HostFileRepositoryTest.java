@@ -1,5 +1,6 @@
 package data;
 
+import admin.data.HostRepository;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,8 +21,8 @@ class HostFileRepositoryTest {
 
     @Test
     void shouldFindHostByState() {
-        assertNotNull(repository.findHostByState("TX"));
-        assertNull(repository.findHostByState("Nonexistent State"));
+        assertFalse(repository.findHostsByState("TX").isEmpty());
+        assertTrue(repository.findHostsByState("Nonexistent State").isEmpty());
     }
 
     @Test

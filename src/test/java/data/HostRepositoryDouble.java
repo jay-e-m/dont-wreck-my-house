@@ -1,15 +1,14 @@
 package data;
 
-import models.Host;
+import admin.data.DataException;
+import admin.data.HostRepository;
+import admin.models.Host;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class HostRepositoryDouble implements HostRepository {
 
@@ -87,11 +86,10 @@ public class HostRepositoryDouble implements HostRepository {
     }
 
     @Override
-    public Host findHostByState(String state) {
-        return hosts.stream()
+    public List<Host> findHostsByState(String state) {
+        return findAll().stream()
                 .filter(h -> h.getState().equalsIgnoreCase(state))
-                .findFirst()
-                .orElse(null);
+                .collect(Collectors.toList());
     }
 
     @Override

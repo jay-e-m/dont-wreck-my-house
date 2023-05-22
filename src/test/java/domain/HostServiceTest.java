@@ -1,8 +1,10 @@
 package domain;
 
-import data.DataException;
+import admin.data.DataException;
+import admin.domain.HostService;
+import admin.domain.Result;
 import data.HostRepositoryDouble;
-import models.Host;
+import admin.models.Host;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

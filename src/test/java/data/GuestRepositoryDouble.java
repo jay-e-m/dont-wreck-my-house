@@ -1,6 +1,8 @@
 package data;
 
-import models.Guest;
+import admin.data.DataException;
+import admin.data.GuestRepository;
+import admin.models.Guest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +44,13 @@ public class GuestRepositoryDouble implements GuestRepository {
                 .filter(g -> g.getId().equalsIgnoreCase(id))
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public List<Guest> findGuestByLastNameInitial(char initial) {
+        return findAll().stream()
+                .filter(g -> g.getLastName().toUpperCase().charAt(0) == Character.toUpperCase(initial))
+                .collect(Collectors.toList());
     }
 
     @Override

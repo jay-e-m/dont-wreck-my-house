@@ -1,6 +1,8 @@
 package data;
 
-import models.Guest;
+import admin.data.DataException;
+import admin.data.GuestRepository;
+import admin.models.Guest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
