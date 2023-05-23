@@ -36,23 +36,6 @@ public class GuestService {
     }
 
 
-    public Result<Guest> addGuest(Guest guest) {
-        Result<Guest> result = validate(guest);
-        if (!result.isSuccess()) {
-            return result;
-        }
-
-        try {
-            guest = guestRepository.add(guest);
-        } catch (DataException ex) {
-            result.addErrorMessage("Could not add the guest: " + ex.getMessage());
-            return result;
-        }
-
-        result.setPayload(guest);
-        return result;
-    }
-
     private Result<Guest> validate(Guest guest) {
         Result<Guest> result = new Result<>();
 

@@ -25,91 +25,48 @@ public class HostServiceTest {
     }
 
     @Test
-    void shouldAddValidHost() throws DataException {
-        Host host = new Host();
-        host.setId(UUID.randomUUID().toString());
-        host.setName("John Doe");
-        host.setEmail("johndoe@gmail.com");
-        host.setPhoneNumber("(555) 5551234");
-        host.setAddress("123 Main St");
-        host.setCity("Somewhere");
-        host.setState("NY");
-        host.setPostalCode("12345");
-        host.setStandardRate(new BigDecimal("300"));
-        host.setWeekendRate(new BigDecimal("400"));
-
-        Result<Host> result = service.add(host);
-
-        assertTrue(result.isSuccess());
-        assertNotNull(result.getPayload());
-        assertEquals(host, result.getPayload());
+    void shouldFindAll() {
+        assertEquals(4, service.findAll().size());
     }
 
     @Test
-    void shouldNotAddInvalidHost() throws DataException {
-        Host host = new Host();
-        // no name/email
-
-        host.setId(UUID.randomUUID().toString());
-        host.setPhoneNumber("(555) 5551234");
-        host.setAddress("123 Main St");
-        host.setCity("Somewhere");
-        host.setState("NY");
-        host.setPostalCode("12345");
-        host.setStandardRate(new BigDecimal("300"));
-        host.setWeekendRate(new BigDecimal("400"));
-
-        Result<Host> result = service.add(host);
-
-        assertFalse(result.isSuccess());
-        assertNull(result.getPayload());
-        assertTrue(result.getErrorMessages().contains("Host name is required."));
-        assertTrue(result.getErrorMessages().contains("Email is required."));
+    void shouldFindByName() {
+        Host host = service.findHostByName("Yearnes");
+        assertNotNull(host);
+        assertEquals("3edda6bc-ab95-49a8-8962-d50b53f84b15", host.getHostUUID());
     }
 
     @Test
-    void shouldUpdateExistingHost() throws DataException {
-        Host host = new Host();
-
-        host.setId("3edda6bc-ab95-49a8-8962-d50b53f84b15");
-        host.setName("Jane Doe");
-        host.setEmail("janedoe@gmail.com");
-        host.setPhoneNumber("(555) 5551234");
-        host.setAddress("123 Main St");
-        host.setCity("Somewhere");
-        host.setState("NY");
-        host.setPostalCode("12345");
-        host.setStandardRate(new BigDecimal("300"));
-        host.setWeekendRate(new BigDecimal("400"));
-
-        Result<Host> result = service.update(host);
-
-        assertTrue(result.isSuccess());
-        assertNotNull(result.getPayload());
-        assertEquals(host, result.getPayload());
+    void shouldNotFindMissingName() {
+        Host host = service.findHostByName("Nonexistent");
+        assertNull(host);
     }
 
     @Test
-    void shouldNotUpdateNonExistingHost() throws DataException {
-        Host host = new Host();
-        // fake host data
-
-        host.setId("non-existing-id");
-        host.setName("Jane Doe");
-        host.setEmail("janedoe@gmail.com");
-        host.setPhoneNumber("(555) 5551234");
-        host.setAddress("123 Main St");
-        host.setCity("Somewhere");
-        host.setState("NY");
-        host.setPostalCode("12345");
-        host.setStandardRate(new BigDecimal("300"));
-        host.setWeekendRate(new BigDecimal("400"));
-
-        Result<Host> result = service.update(host);
-
-        assertFalse(result.isSuccess());
-        assertNull(result.getPayload());
-        assertTrue(result.getErrorMessages().contains("Could not find host to update."));
+    void shouldFindByState() {
+        assertEquals(1, service.findHostByState("TX").size());
+        assertEquals(1, service.findHostByState("GA").size());
+        assertEquals(1, service.findHostByState("AR").size());
     }
+
+    @Test
+    void shouldNotFindByMissingState() {
+        assertEquals(0, service.findHostByState("Nonexistent").size());
+    }
+
+    @Test
+    void shouldFindById() {
+        Host host = service.findHostByID("3edda6bc-ab95-49a8-8962-d50b53f84b15");
+        assertNotNull(host);
+        assertEquals("Yearnes", host.getName());
+    }
+
+    @Test
+    void shouldNotFindMissingId() {
+        Host host = service.findHostByID(UUID.randomUUID().toString());
+        assertNull(host);
+    }
+
+
 }
 

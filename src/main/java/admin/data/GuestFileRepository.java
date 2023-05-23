@@ -65,21 +65,6 @@ public class GuestFileRepository implements GuestRepository {
     }
 
 
-    @Override
-    public Guest add(Guest guest) throws DataException {
-        return null;
-    }
-
-    @Override
-    public boolean update(Guest guest) throws DataException {
-        return false;
-    }
-
-    @Override
-    public boolean delete(Guest guest) throws DataException {
-        return false;
-    }
-
     private String getFilePath() {
         return Paths.get(directory).toString();
     }

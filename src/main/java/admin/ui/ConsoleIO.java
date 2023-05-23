@@ -101,18 +101,6 @@ public class ConsoleIO {
         }
     }
 
-    public boolean readBoolean(String prompt) {
-        while (true) {
-            String input = readRequiredString(prompt).toLowerCase();
-            if (input.equals("y")) {
-                return true;
-            } else if (input.equals("n")) {
-                return false;
-            }
-            println("[INVALID] Please enter 'y' or 'n'.");
-        }
-    }
-
     public LocalDate readLocalDate(String prompt) {
         while (true) {
             String input = readRequiredString(prompt);

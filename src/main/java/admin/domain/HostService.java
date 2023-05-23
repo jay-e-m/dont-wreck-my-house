@@ -33,43 +33,6 @@ public class HostService {
         return hostRepository.findHostByID(id);
     }
 
-    public Result<Host> add(Host host) {
-        Result<Host> result = validate(host);
-        if (!result.isSuccess()) {
-            return result;
-        }
-
-        try {
-            host = hostRepository.add(host);
-        } catch (DataException ex) {
-            result.addErrorMessage("Could not add the host: " + ex.getMessage());
-            return result;
-        }
-
-        result.setPayload(host);
-        return result;
-    }
-
-    public Result<Host> update(Host host) {
-        Result<Host> result = validate(host);
-        if (!result.isSuccess()) {
-            return result;
-        }
-
-        try {
-            if(!hostRepository.update(host)) {
-                result.addErrorMessage("Could not find host to update.");
-                return result;
-            }
-        } catch (DataException ex) {
-            result.addErrorMessage("Could not update the host: " + ex.getMessage());
-            return result;
-        }
-
-        result.setPayload(host);
-        return result;
-    }
-
 
     private Result<Host> validate(Host host) {
         Result<Host> result = new Result<>();

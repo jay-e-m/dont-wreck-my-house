@@ -13,10 +13,5 @@ public interface HostRepository {
 
     Host findHostByID(String id);
 
-    Host add(Host host) throws DataException;
-
-    boolean update(Host host) throws DataException;
-
-    boolean delete(Host host) throws DataException;
 }
 

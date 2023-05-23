@@ -101,28 +101,6 @@ public class HostRepositoryDouble implements HostRepository {
     }
 
     @Override
-    public Host add(Host host) throws DataException {
-        hosts.add(host);
-        return host;
-    }
-
-    @Override
-    public boolean update(Host host) throws DataException {
-        for (int i = 0; i < hosts.size(); i++) {
-            if (hosts.get(i).getHostUUID().equals(host.getHostUUID())) {
-                hosts.set(i, host);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public boolean delete(Host host) throws DataException {
-        return hosts.removeIf(h -> h.getHostUUID().equals(host.getHostUUID()));
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof HostRepositoryDouble that)) return false;

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ReservationService {
@@ -29,6 +30,16 @@ public class ReservationService {
     public List<Reservation> findReservationsForHost(String hostId) {
         return reservationRepository.findByHostID(hostId);
     }
+
+    public Reservation findSpecificReservationByGuestId(String hostId, String guestId) {
+        List<Reservation> allReservations = reservationRepository.findByHostID(hostId);
+        return allReservations.stream()
+                .filter(r -> r.getGuest().getId().equals(guestId))
+                .findFirst()
+                .orElse(null);
+    }
+
+
 
 
     public Result<Reservation> add(Reservation reservation) {
@@ -56,19 +67,34 @@ public class ReservationService {
         return result;
     }
 
-    public Result<Reservation> edit(Reservation reservation) throws DataException {
-        Result<Reservation> result = new Result<>();
+    public Result<Reservation> update(Reservation reservation) {
+        Result<Reservation> result = validate(reservation);
 
-        // Recalculate the total based on the new dates
-        reservation.setTotal(reservation.getTotal());
-
-        boolean success = reservationRepository.update(reservation);
-        if (!success) {
-            result.addErrorMessage("Could not update the reservation.");
+        if (!result.isSuccess()) {
+            return result;
         }
 
+        if (!validateNoDateOverlap(reservation.getHost(), reservation.getStartDate(), reservation.getEndDate())) {
+            result.addErrorMessage("The provided dates overlap with an existing reservation.");
+            return result;
+        }
+
+        reservation.calculateTotal();
+
+        try {
+            boolean success = reservationRepository.update(reservation);
+
+            if (!success) {
+                result.addErrorMessage("Could not find reservation.");
+            }
+        } catch (DataException ex) {
+            result.addErrorMessage("Could not update the reservation: " + ex.getMessage());
+        }
+
+        result.setPayload(reservation);
         return result;
     }
+
 
 
 
@@ -114,14 +140,25 @@ public class ReservationService {
         return result;
     }
 
-    public Result<Reservation> cancel(Reservation reservation) throws DataException {
+    public Result<Reservation> cancel(Reservation reservation) {
         Result<Reservation> result = new Result<>();
 
-        boolean success = reservationRepository.cancel(reservation);
-        if (!success) {
-            result.addErrorMessage("Could not cancel the reservation.");
+        if (reservation.isInPast()) {
+            result.addErrorMessage("Cannot cancel past reservations.");
+            return result;
         }
 
+        try {
+            boolean success = reservationRepository.cancel(reservation);
+
+            if (!success) {
+                result.addErrorMessage("Could not find reservation.");
+            }
+        } catch (DataException ex) {
+            result.addErrorMessage("Could not cancel the reservation: " + ex.getMessage());
+        }
+
+        result.setPayload(reservation);
         return result;
     }
 
@@ -138,4 +175,17 @@ public class ReservationService {
         }
         return true;
     }
+
+    public List<Reservation> filterFutureReservations(String hostId) {
+        // Fetch all reservations by host and guest ID
+        List<Reservation> allReservations = reservationRepository.findByHostID(hostId);
+
+        // Filter the reservations to only include future reservations
+        List<Reservation> futureReservations = allReservations.stream()
+                .filter(reservation -> reservation.getStartDate().isAfter(LocalDate.now()))
+                .collect(Collectors.toList());
+
+        return futureReservations;
+    }
+
 }

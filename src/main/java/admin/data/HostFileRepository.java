@@ -62,38 +62,10 @@ public class HostFileRepository implements HostRepository {
                 .orElse(null);
     }
 
-    @Override
-    public Host add(Host host) throws DataException {
-        return null;
-    }
-
-    @Override
-    public boolean update(Host host) throws DataException {
-        return false;
-    }
-
-    @Override
-    public boolean delete(Host host) throws DataException {
-        return false;
-    }
-
     private String getFilePath() {
         return Paths.get(directory).toString();
     }
 
-    private String serialize(Host item) {
-        return String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
-                item.getHostUUID(),
-                item.getName(),
-                item.getEmail(),
-                item.getPhoneNumber(),
-                item.getAddress(),
-                item.getCity(),
-                item.getState(),
-                item.getPostalCode(),
-                item.getStandardRate(),
-                item.getWeekendRate());
-    }
 
     private Host deserialize(String[] fields) {
         return new Host(fields[0],

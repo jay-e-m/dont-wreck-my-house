@@ -9,6 +9,7 @@ import admin.ui.menus.MainMenuOption;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -106,8 +107,16 @@ public class View {
         return io.confirm(message);
     }
 
-    public Reservation editReservationDates(Reservation reservation) {
-        return null;
+    public LocalDate getNewStartDate(LocalDate oldStartDate) {
+        String oldDateString = oldStartDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        String promptMessage = String.format("Current start date is %s. Enter a new start date [MM/dd/yyyy]: ", oldDateString);
+        return io.readLocalDate(promptMessage);
+    }
+
+    public LocalDate getNewEndDate(LocalDate oldEndDate) {
+        String oldDateString = oldEndDate.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        String promptMessage = String.format("Current end date is %s. Enter a new end date [MM/dd/yyyy]: ", oldDateString);
+        return io.readLocalDate(promptMessage);
     }
 
 
@@ -192,12 +201,24 @@ public class View {
         }
     }
 
+    public void displayFutureReservations(List<Reservation> reservations) {
+        System.out.println("\nFUTURE RESERVATIONS:\n");
+        for (Reservation reservation : reservations) {
+            // Display reservation details
+            System.out.println("Guest ID: " + reservation.getGuest().getId());
+            System.out.println("Start Date: " + reservation.getStartDate());
+            System.out.println("End Date: " + reservation.getEndDate());
+            System.out.println("Total: " + reservation.getTotal());
+            System.out.println("---------------------");
+        }
+    }
+
     public String prepareSummary(Reservation reservation) {
         reservation.calculateTotal();
         StringBuilder summary = new StringBuilder();
         summary.append("Reservation details:\n");
         summary.append("Host: ").append(reservation.getHost().getName()).append("\n");
-        summary.append("Guest: ").append(reservation.getGuest().getFirstName() + reservation.getGuest().getLastName()).append("\n");
+        summary.append("Guest: ").append(reservation.getGuest().getFirstName() + " " + reservation.getGuest().getLastName()).append("\n");
         summary.append("From: ").append(reservation.getStartDate()).append("\n");
         summary.append("To: ").append(reservation.getEndDate()).append("\n");
         summary.append("Total: ").append(reservation.getTotal()).append("\n");

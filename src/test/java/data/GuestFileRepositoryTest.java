@@ -52,23 +52,5 @@ public class GuestFileRepositoryTest {
         assertNull(guest);
     }
 
-    @Test
-    void shouldAdd() throws DataException {
-        Guest guest = new Guest();
-        guest.setFirstName("Test");
-        guest.setLastName("User");
-        guest.setEmail("testuser@mail.com");
-        guest.setPhoneNumber("(123) 4567890");
-        guest.setState("TX");
-
-        Guest result = repository.add(guest);
-        assertNotNull(result);
-        assertNotNull(result.getId());
-        assertEquals("Test", result.getFirstName());
-        assertEquals("User", result.getLastName());
-        assertEquals("testuser@mail.com", result.getEmail());
-        assertEquals("(123) 4567890", result.getPhoneNumber());
-        assertEquals("TX", result.getState());
-    }
 }
 

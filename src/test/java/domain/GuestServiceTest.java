@@ -48,19 +48,5 @@ class GuestServiceTest {
         assertNull(guest);
     }
 
-    @Test
-    void shouldAddGuest() {
-        Guest guest = new Guest();
-        guest.setFirstName("New");
-        guest.setLastName("Guest");
-        guest.setEmail("newguest@mail.com");
-        guest.setPhoneNumber("(123) 4567890");
-        guest.setState("PA");
-
-        Result<Guest> result = service.addGuest(guest);
-        assertTrue(result.isSuccess());
-        assertNotNull(result.getPayload());
-        assertEquals("New", result.getPayload().getFirstName());
-    }
 
 }

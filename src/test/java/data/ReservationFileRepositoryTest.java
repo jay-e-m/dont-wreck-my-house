@@ -25,7 +25,6 @@ class ReservationFileRepositoryTest {
     static final String SEED_FILE_PATH = "./data/data_test/reservations/01f36661-cf18-49e7-a574-b72feb502ed0.csv";
     static final String TEST_FILE_PATH = "./data/data_test/reservations/reservation_test_file/01f36661-cf18-49e7-a574-b72feb502ed0.csv";
     static final String TEST_DIR_PATH = "./data/data_test/reservations/reservation_test_file";
-    static final String TEST_HOST_DIR_PATH = "./data/data_test/hosts";
     static final int RESERVATION_COUNT = 15;
 
     final String hostID = "01f36661-cf18-49e7-a574-b72feb502ed0";
@@ -49,10 +48,18 @@ class ReservationFileRepositoryTest {
     void shouldAdd() throws DataException, IOException {
         Reservation reservation = new Reservation();
 
-        HostFileRepository hostRepository = new HostFileRepository(TEST_HOST_DIR_PATH);
-
-        Host host = hostRepository.findHostByName("Test");
-        assertNotNull(host);
+        // Create dummy host
+        Host host = new Host();
+        host.setId("dummyHostId");
+        host.setName("Name");
+        host.setEmail("test@test.com");
+        host.setPhoneNumber("1234567890");
+        host.setAddress("123 Test St");
+        host.setCity("Test City");
+        host.setState("Test State");
+        host.setPostalCode("12345");
+        host.setStandardRate(new BigDecimal("395"));
+        host.setWeekendRate(new BigDecimal("493.75"));
 
         reservation.setHost(host);
         reservation.setStartDate(LocalDate.of(2021, 5, 16));
@@ -68,6 +75,7 @@ class ReservationFileRepositoryTest {
         BigDecimal actualTotal = reservation.getTotal();
         assertEquals(expectedTotal, actualTotal);
     }
+
 
     @Test
     void shouldUpdate() throws DataException {
