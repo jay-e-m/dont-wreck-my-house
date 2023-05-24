@@ -185,20 +185,9 @@ public class View {
             );
         }
     }
-    public void displayGuests(List<Guest> guests) {
 
-        if (guests.size() == 0) {
-            io.println("No guests found");
-        }
-
-        for (Guest guest : guests) {
-            io.printf("%s: %s %s, Email: %s, Phone: %s%n",
-                    guest.getId(),
-                    guest.getFirstName(),
-                    guest.getLastName(),
-                    guest.getEmail(),
-                    guest.getPhoneNumber());
-        }
+    public void displayActiveReservationsHeader(Host host) {
+        io.printf("\nACTIVE RESERVATIONS FOR: %s , %s%n", host.getName(), host.getState());
     }
 
     public void displayFutureReservations(List<Reservation> reservations) {
@@ -275,6 +264,8 @@ public class View {
     public String getGuestId() {
         return io.readString("Enter the ID of the guest: ");
     }
+
+    public String getSpecificReservationId() {return io.readString("Enter the # of the reservation from the list above: ");}
 
     public char getLastNameInitial() {
         return io.readChar("Enter the initial of the guest's last name: ");

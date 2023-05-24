@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class Controller {
@@ -81,7 +82,7 @@ public class Controller {
             return;
         }
 
-        System.out.println("\nACTIVE RESERVATIONS FOR: " + host.getName() + " , " + host.getState());
+        view.displayActiveReservationsHeader(host);
         viewReservationsForChosenHost(host.getHostUUID());
 
         // GUEST SELECTION
@@ -223,12 +224,8 @@ public class Controller {
             return;
         }
 
-
         // Retrieve all future reservations for the chosen host for the specific guest
         List<Reservation> reservations = reservationService.filterFutureReservations(host.getHostUUID());
-
-        // Display these future reservations to the user
-        view.displayFutureReservations(reservations);
 
         // If there are no future reservations for the guest, return
         if (reservations.isEmpty()) {
@@ -236,16 +233,32 @@ public class Controller {
             return;
         }
 
-        Reservation reservation = reservations.stream()
+        // Filter reservations for the specific guest
+        List<Reservation> guestReservations = reservations.stream()
                 .filter(r -> r.getGuest().getId().equals(guestId))
-                .findFirst()
-                .orElse(null);
+                .collect(Collectors.toList());
 
-        if (reservation == null) {
+        // If there are no future reservations for the guest, return
+        if (guestReservations.isEmpty()) {
             view.displayStatus(false, "No reservation found for guest with ID: " + guestId);
             return;
         }
 
+        // Display these reservations to the user
+        view.displayReservations(guestReservations);
+
+        // Get reservation identifier from the user
+        String reservationId = view.getSpecificReservationId();
+
+
+        // Validate the input
+        if (Integer.parseInt(reservationId) < 1 || Integer.parseInt(reservationId) > guestReservations.size()) {
+            view.displayStatus(false, "Invalid reservation ID.");
+            return;
+        }
+
+        // Fetch the selected reservation
+        Reservation reservation = guestReservations.get(Integer.parseInt(reservationId) - 1);
         reservation.setGuest(guest);
         reservation.setHost(host);
 
@@ -264,6 +277,7 @@ public class Controller {
             view.displayStatus(false, "Cancellation aborted.");
         }
     }
+
 
 
 
